@@ -28,7 +28,7 @@ function main() {
 
 /*Question 3*/
 function go() {
-    initMonstre("Monster 1", 20, 10)
+    initMonstre("Monster 1", 5, 10)
     let show = document.getElementById("show")
     show.addEventListener("click", () => {
         afficheMonstre()
@@ -98,17 +98,20 @@ function courir() {
 
         }
         else {
+            if(life == 0)
+            {
+                logBoite("Le monstre n'est pas vie")
+                let id_button = ["run", "eat", "work", "fight","sleep","kill"]
+                id_button.forEach(element => document.getElementById(element).disabled = true)
+            }
+            else{
             logBoite("Le monstre n'a pas assez le point de vie");
+            }
         }
         console.log(life)
 
     })
     
-    if(life == 0)
-    {
-        logBoite("Le monstre n'est pas vie")
-        disableAction()
-    }
 }
 
 // Exercice 3 Question 1
