@@ -28,11 +28,11 @@ function main() {
 
 /*Question 3*/
 function go() {
-    initMonstre("Monster 1", 1, 10)
+    initMonstre("Monster 1", 20, 10)
     let show = document.getElementById("show")
     show.addEventListener("click", () => {
         afficheMonstre()
-        //updateStatus()
+        updateStatus()
     })
 
 }
@@ -40,7 +40,7 @@ function go() {
 /*Question 4*/
 window.addEventListener("load", () => {
     go()
-    updateStatus() //?
+    //updateStatus() //?
     courir()
     sebattre()
     travailler()
@@ -76,6 +76,14 @@ function updateStatus() {
     let newli_money = document.createElement('li');
     newli_money.textContent = 'Argent : ' + money;
     statut.replaceChild(newli_money, li_money);
+
+    if(awake == false)
+      {
+        let li_dormir = statut.children[2];
+        let newli_dormir = document.createElement('li');
+        newli_dormir.textContent = 'Dormir';
+        statut.replaceChild(newli_dormir, li_dormir);
+      }
 }
 // Fin Exercice 2
 
@@ -83,18 +91,24 @@ function updateStatus() {
 function courir() {
     let run = document.getElementById('run');
     run.addEventListener("click", () => {
-        if (life > 0 && awake === true) {
+        if (life >= 1 && awake === true) {
             logBoite('courir : perte de 1 point de vie');
-            let li_life = statut.children[0];
-            let newli_life = document.createElement('li');
-            newli_life.textContent = 'Vie : ' + --life;
-            statut.replaceChild(newli_life, li_life);
+            --life;
+            updateStatus()
+
         }
         else {
             logBoite("Le monstre n'a pas assez le point de vie");
         }
+        console.log(life)
 
     })
+    
+    if(life == 0)
+    {
+        logBoite("Le monstre n'est pas vie")
+        disableAction()
+    }
 }
 
 // Exercice 3 Question 1
@@ -103,11 +117,8 @@ function sebattre() {
     fight.addEventListener("click", () => {
         if (life > 2 && awake === true) {
             logBoite('se battre : perte de 3 points de vie ;')
-            let li_life = statut.children[0]
-            let newli_life = document.createElement('li')
-            life = life - 3
-            newli_life.textContent = 'Vie : ' + life
-            statut.replaceChild(newli_life, li_life)
+            life=life- 3
+            updateStatus()
         }
         else {
             logBoite("Le monstre n'a pas assez le point de vie");
@@ -122,22 +133,13 @@ function travailler() {
     work.addEventListener("click", () => {
         if (life > 0 && awake === true) {
             logBoite('travailler : perte de 1 point de vie et gain de 2 unités d’argent;');
-            let li_life = statut.children[0];
-            let newli_life = document.createElement('li');
             life = life - 1;
-            newli_life.textContent = 'Vie : ' + life;
-            statut.replaceChild(newli_life, li_life);
-
-            let li_money = statut.children[1];
-            let newli_money = document.createElement('li');
             money = money + 2;
-            newli_money.textContent = 'Argent : ' + money;
-            statut.replaceChild(newli_money, li_money);
-            initMonstre("Monster 1", life, money)
-            
+            updateStatus()            
         }
         else {
             logBoite("Le monstre n'a pas assez le point de vie");
+            
         }
 
     })
@@ -149,17 +151,9 @@ function manger() {
     eat.addEventListener("click", () => {
         if (money > 2 && awake === true) {
             logBoite('manger : perte de 3 unités d’argent et gain de 2 points de vie;')
-            let li_life = statut.children[0]
-            let newli_life = document.createElement('li')
             life = life + 2
-            newli_life.textContent = 'Vie : ' + life
-            statut.replaceChild(newli_life, li_life)
-
-            let li_money = statut.children[1]
-            let newli_money = document.createElement('li')
             money = money - 3
-            newli_money.textContent = 'Argent : ' + money
-            statut.replaceChild(newli_money, li_money)
+            updateStatus()
         }
         else {
             logBoite("Le monstre manque de l'argent");
@@ -168,7 +162,7 @@ function manger() {
     })
 }
 // ?
-function disableAction(){
+/*function disableAction(){
     awake = false;
     document.querySelectorAll('button').forEach(element => {
       element.disabled = true;
@@ -202,19 +196,29 @@ function disableAction(){
     logBoite("Le monstre gagne 1 point de vie à son réveil");
    }, 5000);
    
-}
+}*/
 
 // Exercice 3 Question 2
 function dormir() {
     let dormir = document.getElementById('sleep');  
     sleep.addEventListener("click", ()=>{
-        let li_dormir = statut.children[2];
+        /*let li_dormir = statut.children[2];
         let newli_dormir = document.createElement('li');
         newli_dormir.textContent = 'Dormir';
         statut.replaceChild(newli_dormir, li_dormir);
         logBoite("Le monstre en train de dormir;");
-        disableAction();
-
+        disableAction();*/
+        awake = false;
+        let id_button = ["run", "eat", "work", "fight"]
+        id_button.forEach(element => document.getElementById(element).disabled = true)
+        updateStatus()
+        setTimeout(() => {
+            awake = true
+            let id_button = ["run", "eat", "work", "fight"]
+            id_button.forEach(element => document.getElementById(element).disabled = false)
+            let li_eveille = statut.children[2];
+            li_eveille.textContent = 'Éveillé';
+        }, 5000);
     })
     
 }
@@ -241,21 +245,16 @@ function actionauhasard() {
 function kill() {
     let kill = document.getElementById('kill')
     kill.addEventListener("click", ()=>{
-        let li_life = statut.children[0]
-        let newli_life = document.createElement('li')
-        newli_life.textContent = 'Vie : 0'
-        statut.replaceChild(newli_life, li_life)
-
-        let li_money = statut.children[1]
-        let newli_money = document.createElement('li')
-        newli_money.textContent = 'Argent : 0'
-        statut.replaceChild(newli_money, li_money)
+        life = 0
+        money = 0
+        updateStatus()
 
         let li_dormir = statut.children[2];
         let newli_dormir = document.createElement('li');
-        newli_dormir.textContent = '';
+        newli_dormir.textContent = 'Mort';
         statut.replaceChild(newli_dormir, li_dormir);
-
+        let id_button = ["run", "eat", "work", "fight", "sleep"]
+        id_button.forEach(element => document.getElementById(element).disabled = true)
         logBoite("Le monstre est mort");
     })
 }
@@ -263,12 +262,25 @@ function kill() {
 function Newlife() {
     let newlife = document.getElementById('new')
     newlife.addEventListener("click", ()=>{
+        awake = true
+        let li_eveille = statut.children[2];
+        li_eveille.textContent = 'Éveillé';
         initMonstre("Monster 1", 20, 10)
+        let id_button = ["run", "eat", "work", "fight", "sleep","kill"]
+        id_button.forEach(element => document.getElementById(element).disabled = false)
         updateStatus()
+        logBoite("Le monstre est en vie");
+        console.log(awake)
     })
 }
 
-function abv()
-{
-    
+function disableAction(){
+    // ici j'ai decide déactiver tous les buttons pour au lieu désactiver que certain button. 
+    // c'est plus logique quand le monstre dort, on ne peut pas appuyer sur d'autres boutons
+     document.getElementById("run").disabled = true
+     document.getElementById("eat").disabled = true
+     document.getElementById("work").disabled = true
+     document.getElementById("fight").disabled = true
+     document.getElementById("kill").disabled = true   
+     document.getElementById("sleep").disabled = true 
 }
