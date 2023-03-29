@@ -267,3 +267,8 @@ function Newlife() {
         updateStatus()
     })
 }
+
+function abv()
+{
+    
+}
