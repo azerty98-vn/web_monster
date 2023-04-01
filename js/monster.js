@@ -17,7 +17,7 @@ function initMonstre(nom, vie, argent) {
 function afficheMonstre() {
     //initMonstre("dfdfd", 100, 0)
     console.log("nom: " + name, "vie: " + life, "argent: " + money + " euro")
-    logBoite("nom: " + name + " vie: " + life + " argent: " + money + " euro" + " ;")
+    logBoite("nom: " + name + " vie: " + life + " argent: " + money + " euro")
 }
 
 /*Question 2*/
@@ -28,7 +28,7 @@ function main() {
 
 /*Question 3*/
 function go() {
-    initMonstre("Monster 1", 5, 10)
+    initMonstre("Monster 1", 2, 1)
     let show = document.getElementById("show")
     show.addEventListener("click", () => {
         afficheMonstre()
@@ -48,7 +48,7 @@ window.addEventListener("load", () => {
     dormir()
     kill()
     Newlife()
-   // actionauhasard()
+    //actionauhasard()
     
 })
 
@@ -80,10 +80,12 @@ function updateStatus() {
     if(awake == false)
       {
         let li_dormir = statut.children[2];
-        let newli_dormir = document.createElement('li');
-        newli_dormir.textContent = 'Dormir';
-        statut.replaceChild(newli_dormir, li_dormir);
+        li_dormir.textContent = 'Dormir';
       }
+    else{
+        let li_eveille = statut.children[2];
+        li_eveille.textContent = 'Éveillé';
+    }
 }
 // Fin Exercice 2
 
@@ -98,15 +100,15 @@ function courir() {
 
         }
         else {
-            if(life == 0)
+            /*if(life == 0)
             {
-                logBoite("Le monstre n'est pas vie")
+                logBoite("Le monstre est mort")
                 let id_button = ["run", "eat", "work", "fight","sleep","kill"]
                 id_button.forEach(element => document.getElementById(element).disabled = true)
             }
-            else{
+            else{*/
             logBoite("Le monstre n'a pas assez le point de vie");
-            }
+            // }
         }
         console.log(life)
 
@@ -212,16 +214,20 @@ function dormir() {
         logBoite("Le monstre en train de dormir;");
         disableAction();*/
         awake = false;
+        logBoite("Le monstre en train de dormir");
         let id_button = ["run", "eat", "work", "fight"]
         id_button.forEach(element => document.getElementById(element).disabled = true)
         updateStatus()
         setTimeout(() => {
             awake = true
             let id_button = ["run", "eat", "work", "fight"]
-            id_button.forEach(element => document.getElementById(element).disabled = false)
-            let li_eveille = statut.children[2];
-            li_eveille.textContent = 'Éveillé';
+            id_button.forEach(element => document.getElementById(element).disabled = false)  
+            logBoite("Le monstre est éveillé");
+            life++
+            updateStatus()
+            console.log(awake)
         }, 5000);
+        console.log(awake)
     })
     
 }
@@ -233,15 +239,21 @@ function actionauhasard() {
     let work = document.getElementById('work');
     let eat = document.getElementById('eat');
     let id_button = [sleep,work,fight,run,eat];
-    setInterval(() => {
+    let interval = setInterval(() => {
         let random_action = Math.floor(Math.random()*id_button.length);
         id_button[random_action].click();
         console.log(id_button[random_action])
+        if(life == 0 )
+        { 
+           logBoite("Le monstre est mort")
+           clearInterval(interval)
+           let id_button = ["run", "eat", "work", "fight", "sleep","kill"]
+           id_button.forEach(element => document.getElementById(element).disabled = true)
+        }
+       
+    //   action au hasard, il a (sleep,run, fight, work, eat, newlife and kill) ?
 
-    }, 7000);
-
-
-
+    }, 5000);
 }
 //actionauhasard()
 
@@ -268,11 +280,12 @@ function Newlife() {
         awake = true
         let li_eveille = statut.children[2];
         li_eveille.textContent = 'Éveillé';
-        initMonstre("Monster 1", 20, 10)
+        initMonstre("Monster 1", 5, 10)
         let id_button = ["run", "eat", "work", "fight", "sleep","kill"]
         id_button.forEach(element => document.getElementById(element).disabled = false)
         updateStatus()
-        logBoite("Le monstre est en vie");
+        logBoite("Le monstre ressuscité");
+        //actionauhasard()
         console.log(awake)
     })
 }
@@ -280,10 +293,10 @@ function Newlife() {
 function disableAction(){
     // ici j'ai decide déactiver tous les buttons pour au lieu désactiver que certain button. 
     // c'est plus logique quand le monstre dort, on ne peut pas appuyer sur d'autres boutons
-     document.getElementById("run").disabled = true
-     document.getElementById("eat").disabled = true
-     document.getElementById("work").disabled = true
-     document.getElementById("fight").disabled = true
-     document.getElementById("kill").disabled = true   
-     document.getElementById("sleep").disabled = true 
+    if(life == 0){
+     let id_button = ["run", "eat", "work", "fight", "sleep","kill"]
+     id_button.forEach(element => document.getElementById(element).disabled = true)
+    }
+
 }
+
