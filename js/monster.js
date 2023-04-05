@@ -1,28 +1,28 @@
 /*Question 1.1*/
-var name
-var life
-var money
-var awake = true
-var newP
+var name;
+var life;
+var money;
+var awake = true;
+var newP;
 
 /*Question 1.2*/
 function initMonstre(nom, vie, argent) {
-    name = nom
-    life = vie
-    money = argent
+    name = nom;
+    life = vie;
+    money = argent;
 }
 
 /*Question 1.3*/
 function afficheMonstre() {
     //initMonstre("dfdfd", 100, 0)
-    console.log("nom:" + name, " vie:" + life, " argent:" + money )
-    logBoite("nom:" + name + " vie:" + life + " argent:" + money )
+    console.log("nom:" + name, " vie:" + life, " argent:" + money );
+    logBoite("nom:" + name + " vie:" + life + " argent:" + money );
 }
 
 /*Question 2*/
 function main() {
     initMonstre("Monster 1", 20, 10)
-    afficheMonstre()
+    afficheMonstre();
 }
 
 /*Question 3*/
@@ -30,7 +30,7 @@ function go() {
     initMonstre("Monster 1", 20, 10)
     let show = document.getElementById("show")
     show.addEventListener("click", () => {
-        afficheMonstre()
+        afficheMonstre();
         //updateStatus()
         //ChangeBackground()
     })
@@ -39,16 +39,16 @@ function go() {
 
 /*Question 4*/
 window.addEventListener("load", () => {
-    go()
-    updateStatus() 
-    courir()
-    sebattre()
-    travailler()
-    manger()
-    dormir()
-    kill()
-    Newlife()
-    //actionauhasard()    
+    go();
+    updateStatus(); 
+    courir();
+    sebattre();
+    travailler();
+    manger();
+    dormir();
+    kill();
+    Newlife();
+    // actionauhasard()    
 })
 
 /* Fin Exercice 1*/
@@ -87,11 +87,11 @@ function updateStatus() {
     if (life == 0) {
         let li_mort = statut.children[2];
         li_mort.textContent = 'Mort';
-        logBoite("Le monstre est mort")
-        let id_button = ["run", "eat", "work", "fight", "sleep", "kill"]
-        id_button.forEach(element => document.getElementById(element).disabled = true)
+        logBoite("Le monstre est mort");
+        let id_button = ["run", "eat", "work", "fight", "sleep", "kill"];
+        id_button.forEach(element => document.getElementById(element).disabled = true);
     }
-    ChangeBackground()
+    ChangeBackground();
 }
 // Fin Exercice 2
 
@@ -102,7 +102,7 @@ function courir() {
         if (life >= 1 && awake === true) {
             logBoite('courir : perte de 1 point de vie');
             --life;
-            updateStatus()
+            updateStatus();
 
         }
         else {
@@ -119,9 +119,9 @@ function sebattre() {
     let fight = document.getElementById('fight');
     fight.addEventListener("click", () => {
         if (life > 2 && awake === true) {
-            logBoite('se battre : perte de 3 points de vie ;')
-            life = life - 3
-            updateStatus()
+            logBoite('se battre : perte de 3 points de vie ;');
+            life = life - 3;
+            updateStatus();
         }
         else {
             logBoite("Le monstre n'a pas assez le point de vie");
@@ -138,7 +138,7 @@ function travailler() {
             logBoite('travailler : perte de 1 point de vie et gain de 2 unités d’argent;');
             life = life - 1;
             money = money + 2;
-            updateStatus()
+            updateStatus();
         }
         else {
             logBoite("Le monstre n'a pas assez le point de vie");
@@ -153,10 +153,10 @@ function manger() {
     let eat = document.getElementById('eat');
     eat.addEventListener("click", () => {
         if (money > 2 && awake === true) {
-            logBoite('manger : perte de 3 unités d’argent et gain de 2 points de vie;')
-            life = life + 2
-            money = money - 3
-            updateStatus()
+            logBoite('manger : perte de 3 unités d’argent et gain de 2 points de vie;');
+            life = life + 2;
+            money = money - 3;
+            updateStatus();
         }
         else {
             logBoite("Le monstre manque de l'argent");
@@ -207,16 +207,16 @@ function dormir() {
     sleep.addEventListener("click", () => {
         awake = false;
         logBoite("Le monstre en train de dormir");
-        let id_button = ["run", "eat", "work", "fight", "new"]
-        id_button.forEach(element => document.getElementById(element).disabled = true)
-        updateStatus()
+        let id_button = ["run", "eat", "work", "fight", "new"];
+        id_button.forEach(element => document.getElementById(element).disabled = true);
+        updateStatus();
         setTimeout(() => {
             awake = true
-            let id_button = ["run", "eat", "work", "fight", "new"]
-            id_button.forEach(element => document.getElementById(element).disabled = false)
+            let id_button = ["run", "eat", "work", "fight", "new"];
+            id_button.forEach(element => document.getElementById(element).disabled = false);
             logBoite("Le monstre est éveillé");
-            life++
-            updateStatus()
+            life++;
+            updateStatus();
         }, 5000);
     })
 
@@ -232,12 +232,12 @@ function actionauhasard() {
     let interval = setInterval(() => {
         let random_action = Math.floor(Math.random() * id_button.length);
         id_button[random_action].click();
-        console.log(id_button[random_action])
+        console.log(id_button[random_action]);
         if (life == 0) {
-            logBoite("Le monstre est mort")
-            clearInterval(interval)
-            let id_button = ["run", "eat", "work", "fight", "sleep", "kill"]
-            id_button.forEach(element => document.getElementById(element).disabled = true)
+            logBoite("Le monstre est mort");
+            clearInterval(interval);
+            let id_button = ["run", "eat", "work", "fight", "sleep", "kill"];
+            id_button.forEach(element => document.getElementById(element).disabled = true);
         }
 
         //   action au hasard, il a (sleep,run, fight, work, eat, newlife and kill) ?
@@ -246,49 +246,48 @@ function actionauhasard() {
 }
 
 function kill() {
-    let kill = document.getElementById('kill')
+    let kill = document.getElementById('kill');
     kill.addEventListener("click", () => {
-        life = 0
-        money = 0
-        updateStatus()
+        life = 0;
+        money = 0;
+        updateStatus();
 
         let li_dormir = statut.children[2];
         let newli_dormir = document.createElement('li');
         newli_dormir.textContent = 'Mort';
         statut.replaceChild(newli_dormir, li_dormir);
-        let id_button = ["run", "eat", "work", "fight", "sleep"]
-        id_button.forEach(element => document.getElementById(element).disabled = true)
-        logBoite("Le monstre est mort");
+        let id_button = ["run", "eat", "work", "fight", "sleep"];
+        id_button.forEach(element => document.getElementById(element).disabled = true);
     })
 }
 
 function Newlife() {
     let newlife = document.getElementById('new')
     newlife.addEventListener("click", () => {
-        awake = true
+        awake = true;
         let li_eveille = statut.children[2];
         li_eveille.textContent = 'Éveillé';
-        initMonstre("Monster 1", 20, 10)
-        let id_button = ["run", "eat", "work", "fight", "sleep", "kill"]
-        id_button.forEach(element => document.getElementById(element).disabled = false)
-        updateStatus()
+        initMonstre("Monster 1", 20, 10);
+        let id_button = ["run", "eat", "work", "fight", "sleep", "kill"];
+        id_button.forEach(element => document.getElementById(element).disabled = false);
+        updateStatus();
         logBoite("Le monstre ressuscité");
-        console.log(awake)
+        console.log(awake);
     })
 }
 
 function ChangeBackground() {
+    let monster = document.querySelector("#monster");
     if (life >= 20) {
-        let monster = document.querySelector("#monster")
-        monster.style.backgroundColor = "blue"
+        monster.style.backgroundColor = "blue";
     }
     if (life == 10) {
-        let monster = document.querySelector("#monster")
-        monster.style.backgroundColor = "green"
+        monster.style.backgroundColor = "green";
     }
     if (life <= 1) {
-        let monster = document.querySelector("#monster")
-        monster.style.backgroundColor = "red"
+        monster.style.backgroundColor = "red";
     }
+    monster.style.borderStyle = "solid";
+    monster.style.borderWidth = money+'px';
 }
 
